@@ -1,2 +1,16 @@
-<h1>Home#play</h1>
-<p>Find me in app/views/home/play.html.erb</p>
+<% content_for :title, "Doppelkopf" %>
+<div class="grid-x">
+  	<div class="cell">
+		<h1>Doppelkopf</h1>
+   	</div>
+	<div class="cell">
+		<%= render partial: 'table' %>
+	</div>
+	<div class="cell">
+		<%= render partial: 'human_player' %>
+		
+	</div>
+	<div class="cell">
+		<%= render partial: 'table_links' %>
+	</div>
+</div>

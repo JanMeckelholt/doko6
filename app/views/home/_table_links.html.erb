@@ -1,0 +1,4 @@
+<div class="row small-up-2 medium-up-3 large-up-5 table-links">
+	<%= link_to "Neues Spiel", home_create_game_path(players: @players, game: @game), method: :post, class: "button button-primary" %>
+	<%=	link_to "Tisch verlassen!", :home_index, class: "button primary" %>
+</div>
