@@ -1,8 +1,12 @@
+
 @import '~foundation-sites/dist/css/foundation';
+
 @import '~motion-ui/motion-ui';
 
-@import "./_custom"
+@import '~foundation-sites/scss/foundation';
+@include foundation-everything($flex: false);
 
+@import "./_custom"
 
 
 

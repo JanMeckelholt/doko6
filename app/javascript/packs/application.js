@@ -18,7 +18,16 @@ require("channels")
 
 
 import "foundation-sites"
+import "foundation"
+import Foundation from 'foundation-sites/js/foundation';
+
+
 require("src/application")
+
+
+require("foundation_and_overrides")
+
+
 
 require.context('../images', true)
 require.context('../images/cards', true)
