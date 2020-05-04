@@ -3,10 +3,11 @@
 </div>
 <div class="row small-up-2 medium-up-3 large-up-5 play-table">
   <% @game.trick.cards.each do |card| %>
+    <%# byebug %>
     <div class="column column-block">
       <div class="card play-card">
         <div class="card-image float-center">
-          <img src="/assets/cards/<%= card.name %>.png">
+          <%= image_pack_tag card.path %>
         </div>
         <div class="card-section float-center">
           Trick-Karte

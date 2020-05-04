@@ -75,6 +75,10 @@ class Card < ApplicationRecord
   def Card.get_cards
     CARDS
   end
+
+  def path
+    path = "media/images/cards/" + self.name + ".png"
+  end
   #def self.all_suits
   #  self.suits
   #end

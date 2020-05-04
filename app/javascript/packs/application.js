@@ -15,3 +15,14 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+
+import "foundation-sites"
+require("src/application")
+
+require.context('../images', true)
+require.context('../images/cards', true)
+
+$(document).on('turbolinks:load', function() {
+  $(document).foundation()
+});
