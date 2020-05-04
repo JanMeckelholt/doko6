@@ -23,6 +23,18 @@ before_action :authenticate_player!
     redirect_to :home_index
   end
 
+  def leave_game
+    @current_player = current_player
+    if @current_player.hand
+      @current_player.hand.cards.each do |card|
+        card.update!(hand: nil)
+      end
+      @current_player.hand.destroy!
+    end
+    @current_player.update(game: nil, hand:nil)
+    redirect_to :home_index
+  end  
+
 
 
   def play
@@ -105,6 +117,9 @@ private
     find_players
     @players.each do |player|
       if player.hand
+        player.hand.cards.each do |card|
+          card.update!(hand: nil)
+        end
         player.hand.destroy!
       end
     end
@@ -117,11 +132,19 @@ private
     end 
   end 
 
-  def reset_game
-    @game.update!(round: 0, next_player:1)
+  def destroy_trick
     if @game.trick
+      @game.trick.cards.each do |card|
+          card.update!(trick: nil)
+      end
       @game.trick.destroy!
     end
+  end
+
+
+  def reset_game
+    @game.update!(round: 0, next_player:1)
+    destroy_trick
     destroy_player_hands
     destroy_game_players
   end
