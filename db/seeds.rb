@@ -5,9 +5,19 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-if not Player.find_by(email: "ab@c.de")
-	player = Player.create!(email: "ab@c.de", name: "Jan", password: "123456")
+if not Player.find_by(email: "ab@c1.de")
+	player = Player.create!(email: "ab@c1.de", name: "Jan", password: "123456")
 end
+if not Player.find_by(email: "ab@c2.de")
+    player = Player.create!(email: "ab@c2.de", name: "Peter", password: "123456")
+end
+if not Player.find_by(email: "ab@c3.de")
+    player = Player.create!(email: "ab@c3.de", name: "Karl", password: "123456")
+end
+if not Player.find_by(email: "ab@c4.de")
+    player = Player.create!(email: "ab@c4.de", name: "Klaus", password: "123456")
+end
+
 
   CARDS = [
     "Herz_Zehn",

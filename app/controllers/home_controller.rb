@@ -19,8 +19,13 @@ before_action :authenticate_player!
       flash[:alert] = "You already joined!"
     else
       @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
+      find_players
     end
-    redirect_to :home_index
+    if @players.count == 4 
+      create_game
+    else
+      redirect_to :home_index
+    end
   end
 
   def leave_game

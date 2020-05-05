@@ -7,7 +7,7 @@
 
 
       	<% @players.each do |player| %>
-      		<p>Player : <%=player.email %> </p>
+      		<p>Player : <%=player.name_or_email %> </p>
       	<% end %>
 
 		<%=link_to "Join Game", home_join_game_path, method: :post, class: "button button-primary" %>
@@ -15,11 +15,5 @@
 
 
     </div>
-    <%=link_to "Play!", home_create_game_path(players: @players), method: :post, class: "button button-primary" %>
   </div>
  
- 
- <%=@player1%>
- <%=@player2%>
- <%=@player3%>
- <%=@player4%>
