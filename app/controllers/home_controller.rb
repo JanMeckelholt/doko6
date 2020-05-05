@@ -71,7 +71,7 @@ before_action :authenticate_player!
     @game = Game.find(params[:game])
     find_players
     if (@game.player_to_play(@players)==@current_player) && (@current_player.hand.cards.count + @game.round == 10)
-      @card.update!(trick: @game.trick, hand: nil)
+      @card.update!(trick: @game.trick, played: true)
       @game.to_next_player
       @game.save
     else

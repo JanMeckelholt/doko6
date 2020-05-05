@@ -5,7 +5,7 @@
     <h2>Mein Blatt:</h2>   
   </div>
   <div class="row small-up-2 medium-up-3 large-up-5 human-player">
-    <% @current_player.hand.cards.each do |card| %>
+    <% @current_player.hand.cards.where(played: false).each do |card| %>
       <div class="column column-block">
         
         <div class="card play-card">

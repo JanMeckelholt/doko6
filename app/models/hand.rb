@@ -52,14 +52,16 @@ class Hand < ApplicationRecord
   #end
 
 
-  def sort_cards
+ # def sort_cards
     #@hand_cards.sort! { |a, b| a.numeric_value <=> b.numeric_value }
   #  byebug
     
-    sef.cards.sort_by! { |a| a.order_value  }
+ #   self.cards.sort_by! { |a| a.order_value  }
+ # end
+
+  def not_played
+    self.cards.where(played: false)
   end
-
-
 
 
 

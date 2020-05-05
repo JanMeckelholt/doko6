@@ -20,7 +20,7 @@ class Deck < ApplicationRecord
 
   def build_deck
     Card.all.each do |card|
-      card.update!(deck: self)
+      card.update!(deck: self, played: false)
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_164133) do
+ActiveRecord::Schema.define(version: 2020_05_05_043545) do
 
   create_table "cards", force: :cascade do |t|
     t.string "name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_05_03_164133) do
     t.integer "hand_id"
     t.integer "deck_id"
     t.integer "trick_id"
+    t.boolean "played", default: false
     t.index ["deck_id"], name: "index_cards_on_deck_id"
     t.index ["hand_id"], name: "index_cards_on_hand_id"
     t.index ["trick_id"], name: "index_cards_on_trick_id"

@@ -1,7 +1,7 @@
 <div class="row small-up-2 medium-up-3 large-up-5">
     <h2>Spieltisch:</h2>   
 </div>
-<div class="row small-up-2 medium-up-3 large-up-5 play-table">
+<!-- <div class="row small-up-2 medium-up-3 large-up-5 play-table">
   <% @game.trick.cards.each do |card| %>
     <%# byebug %>
     <div class="column column-block">
@@ -16,9 +16,26 @@
     </div>
   <% end %>
 </div>
-
+ -->
   
 
 
 
-
+<div class="row small-up-2 medium-up-3 large-up-5 play-table">
+  <% @players.each do |player| %>
+    <div class="column column-block">
+      <div class="card play-card">
+        <div class="card-image float-center">
+          <% if player.hand.cards.find_by(trick: @game.trick) %>
+            <%=image_pack_tag player.hand.cards.find_by(trick: @game.trick).path%>
+          <% else %>
+            <%=image_pack_tag "media/images/cards/back.png"%>
+          <% end %>
+        </div>
+        <div class="card-section float-center">
+          <%=player.name%>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
