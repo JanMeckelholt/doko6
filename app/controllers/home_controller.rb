@@ -16,7 +16,7 @@ before_action :authenticate_player!
     @game = Game.all.first || Game.create!
     find_players
     if @players.include? @current_player
-      flash[:alert] = "You already joined!"
+      flash[:danger] = "You already joined!"
     else
       @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
       find_players
@@ -26,11 +26,11 @@ before_action :authenticate_player!
      # GameChannel.broadcast_to(@curren_player, content: @current_player.name_or_email)
    
     end
-    #if @players.count == 4 
-    #  create_game
-    #else
+    if @players.count == 4 
+      create_game
+    else
       redirect_to :home_index
-    #end
+    end
   end
 
   def leave_game
@@ -86,7 +86,7 @@ before_action :authenticate_player!
       @game.save
       ActionCable.server.broadcast "game_channel", content: @card.name
     else
-      flash[:alert] = 'Not your turn!'
+      flash[:danger] = 'Not your turn!'
       #byebug
     end
     #byebug

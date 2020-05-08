@@ -1,7 +1,8 @@
 <% content_for :title, "Doppelkopf" %>
 
+<div class="container">
   <div class="row">
-    <div class="large-12 columns">
+    <div class="col-sm">
       <h1>Doppelkopf</h1>
       <div id="msg"></div>
 
@@ -12,11 +13,12 @@
       		<p>Player : <%=player.name_or_email %> </p>
       	<% end %>
 
-		<%=link_to "Join Game", home_join_game_path, method: :post, class: "button button-primary" %>
-    <%=link_to "Leave Game", home_leave_game_path, method: :post, class: "button button-primary" %>
+		<%=link_to "Join Game", home_join_game_path, method: :post, class: "btn btn-primary" %>
+    <%=link_to "Leave Game", home_leave_game_path, method: :post, class: "btn btn-primary" %>
 
 
 
     </div>
   </div>
+</div>
  

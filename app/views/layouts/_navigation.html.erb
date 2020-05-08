@@ -1,12 +1,14 @@
-<div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li class="menu-text">Doppelkopf</li>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <% if @current_player %>
+    <span class="navbar-brand mb-0 h1"> <%= @current_player.name_or_email %> </span>
+  <% end %>
+
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav pull-right">
+          <%= render 'layouts/navigation_links' %>
     </ul>
+
   </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-		<%= render 'layouts/navigation_links' %>
-    </ul>
-  </div>
-</div>
+</nav>
+
+

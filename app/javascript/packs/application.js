@@ -19,21 +19,18 @@ require("jquery")
 // const imagePath = (name) => images(name, true)
 
 
-import "foundation-sites"
-import "foundation"
-import Foundation from 'foundation-sites/js/foundation';
+//require('bootstrap');
+import 'bootstrap';
 
-
-require("src/application")
-
-
-require("foundation_and_overrides")
+import '../stylesheets/application';
+import './bootstrap_custom.js';
 
 
 
 require.context('../images', true)
 require.context('../images/cards', true)
 
-$(document).on('turbolinks:load', function() {
-  $(document).foundation()
-});
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="popover"]').popover()
+})

@@ -1,13 +1,10 @@
-<%# Rails flash messages styled for Zurb Foundation %>
-
-
-
-<% flash.each do | name, message | %>
-  <%= content_tag :div, class: "callout #{name}", :data => { :closable => 'slide-out-right' }  do -%>
-    <%= message %>
-    <%= link_to('', html_options = {:"data-label" => "Dismiss alert" , :"data-close" => "data-close" }, class: "close-button") do-%>
-      <span aria-hidden="true">&times;</span>
-    <% end -%>
-   <% end -%>
-<% end -%>
-
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>">
+    <a href="#" data-dismiss="alert" class="close">×</a>
+      <ul>
+        <li>
+          <%= value %>
+        </li>
+      </ul>
+  </div>
+<% end %>

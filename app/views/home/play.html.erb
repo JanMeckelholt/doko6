@@ -1,16 +1,23 @@
 <% content_for :title, "Doppelkopf" %>
-<div class="grid-x">
-  	<div class="cell">
-		<h1>Doppelkopf</h1>
-   	</div>
-	<div class="cell">
-		<%= render partial: 'table' %>
+<div class="container">
+	<div class="row">
+	    <div class="col-sm">
+			<h1>Doppelkopf</h1>
+	 	</div>
 	</div>
-	<div class="cell">
-		<%= render partial: 'human_player' %>
-		
+  	<div class="row">
+	    <div class="col-sm">
+			<%= render partial: 'table' %>
+		</div>
 	</div>
-	<div class="cell">
-		<%= render partial: 'table_links' %>
+  	<div class="row">
+	    <div class="col-sm">
+	   		<%= render partial: 'human_player' %>	
+		</div>
+	</div>
+	<div class="row">
+    	<div class="col-sm">
+			<%= render partial: 'table_links' %>
+		</div>
 	</div>
 </div>

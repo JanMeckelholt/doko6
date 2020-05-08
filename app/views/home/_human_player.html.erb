@@ -1,20 +1,23 @@
-
-
-
-  <div class="row small-up-2 medium-up-3 large-up-5">
-    <h2>Mein Blatt:</h2>   
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h2>Mein Blatt:</h2>   
+    </div>
   </div>
-  <div class="row small-up-2 medium-up-3 large-up-5 human-player">
+  <div class="row">
     <% @current_player.hand.cards.where(played: false).each do |card| %>
-      <div class="column column-block">
-        
-        <div class="card play-card">
-          <%= image_pack_tag card.path %>
-          <div class="card-section">
-            <%=link_to "Karte spielen", home_play_card_path(card: card, game: @game), method: :post, class: "button button-primary" %>
+      <div class="col-sm">
+
+          <div class="card-img-top">
+            <%= image_pack_tag card.path %>
+            <div class="card-body">
+              <%=link_to "Karte spielen", home_play_card_path(card: card, game: @game), method: :post, class: "btn btn-primary" %>
+            </div>
           </div>
-        </div>
-      
+    
       </div>
     <% end %>
   </div>
+</div>
+
+

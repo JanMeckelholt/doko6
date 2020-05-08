@@ -1,8 +1,8 @@
 <%# add navigation links to this file %>
 <% if player_signed_in? %>
-    <li><%= link_to 'Profile', edit_player_registration_path %></li>
-    <li><%= link_to 'Log out', destroy_player_session_path, method: :delete %></li>
+    <li class="nav-item"><%= link_to 'Profile', edit_player_registration_path, class: "nav-link"  %></li>
+    <li class="nav-item"><%= link_to 'Log out', destroy_player_session_path, method: :delete, class: "nav-link"  %></li>
 <% else %>
-    <li><%= link_to 'Log In', new_player_session_path %></li>
-    <li><%= link_to 'Sign Up', new_player_registration_path %></li>
+    <li class="nav-item"><%= link_to 'Log In', new_player_session_path, class: "nav-link" %></li>
+    <li class="nav-item"><%= link_to 'Sign Up', new_player_registration_path, class: "nav-link"  %></li>
 <% end %>

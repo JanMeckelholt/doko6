@@ -1,6 +1,9 @@
-<div class="row small-up-2 medium-up-3 large-up-5">
-    <h2>Spieltisch:</h2>   
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h2>Spieltisch:</h2>   
     <div id="msg"></div>
+  </div>
 </div>
 <!-- <div class="row small-up-2 medium-up-3 large-up-5 play-table">
   <% @game.trick.cards.each do |card| %>
@@ -22,21 +25,24 @@
 
 
 
-<div class="row small-up-2 medium-up-3 large-up-5 play-table">
-  <% @players.each do |player| %>
-    <div class="column column-block">
-      <div class="card play-card">
-        <div class="card-image float-center">
+<div class="container">
+  <div class="row">
+    <% @players.each do |player| %>
+      <div class="col-sm">  
+        <div class="card-img-top">
           <% if player.hand.cards.find_by(trick: @game.trick) %>
             <%=image_pack_tag player.hand.cards.find_by(trick: @game.trick).path%>
           <% else %>
             <%=image_pack_tag "media/images/cards/back.png"%>
           <% end %>
         </div>
-        <div class="card-section float-center">
-          <%=player.name_or_email%>
+        <div class="card-body">
+            <%=player.name_or_email%>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
+
+
+
