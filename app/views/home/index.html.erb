@@ -3,6 +3,8 @@
   <div class="row">
     <div class="large-12 columns">
       <h1>Doppelkopf</h1>
+      <div id="msg"></div>
+
       <p>Warte auf Mitspieler...</p>
 
 
@@ -11,6 +13,7 @@
       	<% end %>
 
 		<%=link_to "Join Game", home_join_game_path, method: :post, class: "button button-primary" %>
+    <%=link_to "Leave Game", home_leave_game_path, method: :post, class: "button button-primary" %>
 
 
 

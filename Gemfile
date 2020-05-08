@@ -32,6 +32,7 @@ gem 'foundation-rails'
 gem 'autoprefixer-rails'
 gem 'devise'
 gem 'devise-foundation-views'
+gem 'jquery-turbolinks'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
