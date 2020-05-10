@@ -19,7 +19,13 @@ consumer.subscriptions.create("PlayerChannel", {
     
 
     //location.reload(true)
-    location.href="/home/index.html"
+    if (data.content==="reload"){
+		location.href="/home/index.html"
+    }
+    else{
+    	location.href="/home/create_game.html"
+    }
+    
 // 	$.ajax({
 //   	url: '/home/index',
 //   	data: { authenticity_token: $('[name="csrf-token"]')[0].content}

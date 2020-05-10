@@ -28,7 +28,7 @@ before_action :authenticate_player!
    
     end
     if @players.count == 4 
-      create_game
+      ActionCable.server.broadcast "player_channel", content: "play", sent_by: @current_player.id
     else
       redirect_to :home_index
     end
