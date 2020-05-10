@@ -21,7 +21,8 @@ before_action :authenticate_player!
       @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
       find_players
     
-      ActionCable.server.broadcast "game_channel", sent_by: @current_player.name_or_email, content: "Joining"
+      ActionCable.server.broadcast "player_channel", content: "reload", sent_by: @current_player.id
+     # ActionCable.server.broadcast "game_channel", content: "tach game"
      # ActionCable.server.broadcast "appreance_channel", content: @current_player.name_or_email
      # GameChannel.broadcast_to(@curren_player, content: @current_player.name_or_email)
    
@@ -42,6 +43,7 @@ before_action :authenticate_player!
       @current_player.hand.destroy!
     end
     @current_player.update(game: nil, hand:nil)
+    ActionCable.server.broadcast "player_channel", content: "reload", sent_by: @current_player.id
     redirect_to :home_index
   end  
 
