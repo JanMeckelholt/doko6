@@ -64,15 +64,16 @@ before_action :authenticate_player!
     @game = Game.all.first || Game.create!
     reset_game
     @current_player = current_player
-    if params[:players]
-      find_players_by_params
-    end
+  #  if params[:players]
+  #    find_players_by_params
+  #  end
   #  @players.each do |player|
-      @game_player = GamePlayer.create!(game: @game, player: @current_player)
+  #    @game_player = GamePlayer.create!(game: @game, player: @current_player)
   #  end
     @deck = Deck.all.first || Deck.create!
     @deck.update!(game: @game)
     @deck.build_deck
+    find_players
     init_players
     @trick = Trick.create!(game: @game)
     #redirect_to :home_play
