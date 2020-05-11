@@ -62,7 +62,9 @@ before_action :authenticate_player!
 
   def create_game 
     @game = Game.all.first || Game.create!
-    reset_game
+    @game.update!(round: 0, next_player:1)
+    destroy_trick
+    destroy_player_hands
     @current_player = current_player
   #  if params[:players]
   #    find_players_by_params
