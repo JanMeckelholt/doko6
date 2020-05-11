@@ -66,9 +66,9 @@ before_action :authenticate_player!
     if params[:players]
       find_players_by_params
     end
-    @players.each do |player|
-      @game_player = GamePlayer.create!(game: @game, player: player)
-    end
+  #  @players.each do |player|
+      @game_player = GamePlayer.create!(game: @game, player: @current_player)
+  #  end
     @deck = Deck.all.first || Deck.create!
     @deck.update!(game: @game)
     @deck.build_deck
