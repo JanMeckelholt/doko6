@@ -42,7 +42,7 @@ end
     "Herz_Koenig"
   ]
 
-game = Game.create!
+game = Game.first || Game.create!
 deck = Deck.create!(game: game)
 
 CARDS.each do |card|
