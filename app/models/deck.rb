@@ -8,19 +8,20 @@ class Deck < ApplicationRecord
   def deal_to(hand)
     #cards = Card.where(deck: self)
     10.times do
-      cards = Card.where(deck: self)
+      cards = Card.where(hand: nil, deck: self)
       i = rand(0..cards.count-1)
       card = cards[i] #cards.first
       #byebug
-      card.update!(hand: hand, deck: nil)
-      
+      if card 
+        card.update!(hand: hand, trick:nil, played: false)
+      end
       
     end
   end
 
   def build_deck
     Card.all.each do |card|
-      card.update!(deck: self, played: false)
+      card.update!(deck: self, played: false, hand: nil, trick:nil)
     end
   end
 
