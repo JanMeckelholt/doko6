@@ -23,7 +23,7 @@ consumer.subscriptions.create("PlayerChannel", {
 		location.href="/home/index.html"
     }
     else{
-    	location.href="/home/create_game.html"
+    	location.href="/home/play.html"
     }
     
 // 	$.ajax({

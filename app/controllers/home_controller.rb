@@ -28,6 +28,7 @@ before_action :authenticate_player!
    
     end
     if @players.count == 4 
+      create_game
       ActionCable.server.broadcast "player_channel", content: "play", sent_by: @current_player.id
     else
       redirect_to :home_index
@@ -74,7 +75,7 @@ before_action :authenticate_player!
     @deck.build_deck
     init_players
     @trick = Trick.create!(game: @game)
-    redirect_to :home_play
+    #redirect_to :home_play
   end #create
 
   def play_card
