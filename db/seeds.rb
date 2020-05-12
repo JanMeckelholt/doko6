@@ -43,9 +43,15 @@ end
   ]
 
 game = Game.first || Game.create!
-deck = Deck.create!(game: game)
+if game.deck 
+    deck = game.deck
+else
+    deck = Deck.first || Deck.create!(game: game)
+    deck.update!(game: game)
+end
 
 CARDS.each do |card|
-	Card.create!(name: card, deck: deck)
-    Card.create!(name: card, deck: deck)
+    while Card.where(name: card).count < 2 do
+	   Card.create!(name: card, deck: deck)
+    end
 end

@@ -41,9 +41,8 @@ before_action :authenticate_player!
       @current_player.hand.cards.each do |card|
         card.update!(hand: nil)
       end
-      @current_player.hand.destroy!
+      @current_player.game_player.destroy!
     end
-    @current_player.update(game: nil, hand:nil)
     ActionCable.server.broadcast "player_channel", content: "reload", sent_by: @current_player.id
     redirect_to :home_index
   end  
@@ -52,8 +51,8 @@ before_action :authenticate_player!
 
   def play
     @current_player = current_player
-    if GamePlayer.find_by(player: @current_player)
-      @game = GamePlayer.find_by(player: @current_player).game
+    @game = @current_player.game
+    if @game  
       find_players
     else 
       redirect_to :home_index
@@ -63,7 +62,8 @@ before_action :authenticate_player!
   def create_game 
     @game = Game.all.first || Game.create!
     @game.update!(round: 0, next_player:1)
-    destroy_trick
+    destroy_game_tricks
+    destroy_player_tricks
     destroy_player_hands
     @current_player = current_player
   #  if params[:players]
@@ -126,8 +126,7 @@ private
       hand = Hand.find_or_create_by!(player: player)
       @deck.deal_to(hand)
       hand.save
-      player.save
-    end
+     end
   end #init_players
 
   def destroy_player_hands
@@ -149,19 +148,31 @@ private
     end 
   end 
 
-  def destroy_trick
-    if @game.trick
-      @game.trick.cards.each do |card|
+  def destroy_game_tricks
+    @game.tricks.each do |trick|
+      trick.cards.each do |card|
           card.update!(trick: nil)
       end
-      @game.trick.destroy!
+      trick.destroy!
+    end
+  end
+
+  def destroy_player_tricks
+    find_players
+    @players.each do |player|
+      player.tricks.each do |trick|
+        trick.cards.each do |card|
+            card.update!(trick: nil)
+        end
+        trick.destroy!
+      end
     end
   end
 
 
   def reset_game
     @game.update!(round: 0, next_player:1)
-    destroy_trick
+    destroy_game_tricks
     destroy_player_hands
     destroy_game_players
   end

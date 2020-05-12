@@ -6,8 +6,11 @@ class Player < ApplicationRecord
 
          
   has_one :game_player, dependent: :destroy  
-  has_one :game,  :through => :game_player
-  has_one :hand, dependent: :destroy
+  has_one :game, :through => :game_player
+  has_one :hand, :through => :game_player, dependent: :destroy
+  has_many :tricks, :through => :game_player, dependent: :destroy
+
+  
 
 
   def name_or_email

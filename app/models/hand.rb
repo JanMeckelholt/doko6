@@ -3,7 +3,7 @@ class Hand < ApplicationRecord
   #include ActiveModel::Model
   #
   has_many :cards   #, -> { order(order_value) }  
-  belongs_to :player, optional: true
+  belongs_to :game_player, optional: true
  
   validates :cards, length:{maximum: 10}
 
