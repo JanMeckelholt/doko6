@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-sm">
 
-      <% if @game.next_player <5 %>
+      <% if @game.tricks.last.cards.count <4 %>
           <%=link_to "Mein Stich", 'javascript:;', class: "btn btn-primary disabled", :disabled => true %>
       <% else %>
            <%=link_to "Mein Stich", home_claim_trick_path(game: @game, player: @current_player), class: "btn btn-primary"%>

@@ -13,8 +13,11 @@ consumer.subscriptions.create("GameChannel", {
 
   received(data) {
 
-    if (data.content==="reload"){
+    if (data.content==="play"){
       location.href="/home/play.html"
+    }
+    if (data.content==="index"){
+      location.href="/home/index.html"
     }
     // Called when there's incoming data on the websocket for this channel
     //console.log("Recieving:")

@@ -17,10 +17,10 @@ class Game < ApplicationRecord
 
   def to_next_player
     case self.next_player
-    when 0, 5
+    when 0, 4
       self.next_player=1
-      self.round +=1
-    when 1..4 
+     # self.round +=1
+    when 1..3 
       self.next_player +=1
       #5 -> Trick ends
     else

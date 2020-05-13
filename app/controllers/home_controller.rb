@@ -21,10 +21,9 @@ before_action :authenticate_player!
       @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
       find_players
       if @players.count == 4 
-        create_game
-        ActionCable.server.broadcast "player_channel", content: "play", sent_by: @current_player.id
+        redirect_to :home_create_game and return
       else
-        ActionCable.server.broadcast "player_channel", content: "reload", sent_by: @current_player.id
+        ActionCable.server.broadcast "game_channel", content: "index"
       end
      # ActionCable.server.broadcast "game_channel", content: "tach game"
      # ActionCable.server.broadcast "appreance_channel", content: @current_player.name_or_email
@@ -41,7 +40,7 @@ before_action :authenticate_player!
       end  
     end
     @current_player.game_player.destroy! if @current_player.game_player
-    ActionCable.server.broadcast "player_channel", content: "reload", sent_by: @current_player.id
+    ActionCable.server.broadcast "game_channel", content: "index"
     redirect_to :home_index
   end  
 
@@ -58,6 +57,8 @@ before_action :authenticate_player!
   end #play
 
   def create_game 
+    @current_player = current_player
+    
     @game = Game.all.first || Game.create!
     @game.update!(round: 0, next_player:1)
     destroy_game_tricks
@@ -76,7 +77,8 @@ before_action :authenticate_player!
     find_players
     init_players
     @trick = Trick.create!(game: @game)
-    #redirect_to :home_play
+    ActionCable.server.broadcast "game_channel", content: "play"
+    redirect_to :home_play
   end #create
 
   def play_card
@@ -84,11 +86,11 @@ before_action :authenticate_player!
     @current_player = current_player
     @game = Game.find(params[:game])
     find_players
-    if (@game.player_to_play(@players)==@current_player) && (@current_player.hand.cards.count + @game.round == 10)
+    if (@game.player_to_play(@players)==@current_player) #&& (@current_player.hand.cards.count + @game.round == 10)
       @card.update!(trick: @game.tricks.last, played: true)
       @game.to_next_player
       @game.save
-      ActionCable.server.broadcast "game_channel", content: "reload"
+      ActionCable.server.broadcast "game_channel", content: "play"
     else
       flash[:danger] = 'Not your turn!'
       #byebug
@@ -98,12 +100,15 @@ before_action :authenticate_player!
   end
 
   def claim_trick
+    @game = Game.find(params[:game])
     @current_player = current_player
-    @game.tricks.last.player = @current_player
+    @game.tricks.last.game_player = @current_player.game_player
     if @game.round < 10
-      @game.trick.create!
-      @game.to_next_player
-      ActionCable.server.broadcast "game_channel", content: "reload"
+      find_players
+      @game.tricks.create!
+      @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
+     
+      ActionCable.server.broadcast "game_channel", content: "play"
     end
     redirect_to :home_play
   end

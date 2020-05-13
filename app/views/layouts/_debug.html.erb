@@ -1,0 +1,12 @@
+<p>//////////////////////</p>
+
+<p>Game Round: <%= @game.round %></p>
+<p>Game Next-Player: <%= @game.next_player %></p>
+<% @players.each do |player| %>
+	<p>Player Name: <%= player.name %></p>
+	<p>Player Email: <%= player.email %></p>
+	<p>Player Id: <%= player.id %></p>
+	<p>----</p>
+<% end %>
+
+<p>//////////////////////</p>
