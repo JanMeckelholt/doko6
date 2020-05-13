@@ -1,37 +1,35 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <h2>Spieltisch:</h2>   
-    <div id="msg"></div>
+      <h2>Spieltisch:</h2> 
+      <p>"Nächster Spieler: " <%=@players[@game.next_player-1].name_or_email if @players[@game.next_player-1] %> </p>  
+      <div id="msg"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm">
+
+      <% if @game.next_player <5 %>
+          <%=link_to "Mein Stich", 'javascript:;', class: "btn btn-primary disabled", :disabled => true %>
+      <% else %>
+           <%=link_to "Mein Stich", home_claim_trick_path(game: @game, player: @current_player), class: "btn btn-primary"%>
+      <% end %>
+
+     
   </div>
 </div>
-<!-- <div class="row small-up-2 medium-up-3 large-up-5 play-table">
-  <% @game.trick.cards.each do |card| %>
-    <%# byebug %>
-    <div class="column column-block">
-      <div class="card play-card">
-        <div class="card-image float-center">
-          <%= image_pack_tag card.path %>
-        </div>
-        <div class="card-section float-center">
-          Trick-Karte
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
- -->
   
 
 
 
-<div class="container">
+
   <div class="row">
     <% @players.each do |player| %>
       <div class="col-sm">  
         <div class="card-img-top">
-          <% if player.hand.cards.find_by(trick: @game.trick) %>
-            <%=image_pack_tag player.hand.cards.find_by(trick: @game.trick).path%>
+          <% if player.hand.cards.find_by(trick: @game.tricks.last) %>
+            <%=image_pack_tag player.hand.cards.find_by(trick: @game.tricks.last).path%>
           <% else %>
             <%=image_pack_tag "media/images/cards/back.png"%>
           <% end %>

@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get 'home/join_game', to: 'home#join_game'
   get 'home/leave_game', to: 'home#leave_game'
   get 'home/play_card', to: 'home#play_card'
+  get 'home/claim_trick', to: 'home#claim_trick'
 end

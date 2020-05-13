@@ -12,11 +12,15 @@ consumer.subscriptions.create("GameChannel", {
   },
 
   received(data) {
+
+    if (data.content==="reload"){
+      location.href="/home/play.html"
+    }
     // Called when there's incoming data on the websocket for this channel
     //console.log("Recieving:")
     //window.alert("Recieving:")
     //console.log(data.content)
-    $('#msg').append('<div class="message"> ' + data.content + '</div>')
+    //$('#msg').append('<div class="message"> ' + data.content + '</div>')
     //debugger;
   }
 });
