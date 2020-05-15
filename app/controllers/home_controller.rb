@@ -21,6 +21,7 @@ class HomeController < ApplicationController
     @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
     find_players
     if @players.count == 4 
+      @game.update!(dealer: 1)
       redirect_to :home_create_game and return
     else
       ActionCable.server.broadcast "game_channel", content: "index"
@@ -52,7 +53,10 @@ def play
     @current_player = current_player
     
     @game = Game.all.first || Game.create!
-    @game.update!(round: 1, next_player:1)
+    @dealer = params[:dealer] || 1
+    @game.update!(round: 1, next_player:@dealer, dealer: @dealer)
+    @game.to_next_player
+    @game.save
     find_players
 
     @game.clear_tricks
@@ -97,6 +101,8 @@ def play
       @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
     else 
       @game.update!(round: 0, next_player: nil)
+      @game.to_next_dealer
+      @game.save
     end
     ActionCable.server.broadcast "game_channel", content: "play"
     redirect_to :home_play

@@ -30,6 +30,18 @@ class Game < ApplicationRecord
     end
   end
 
+  def to_next_dealer
+    case self.dealer
+    when 0, 4
+      self.dealer=1
+    when 1..3 
+    self.dealer +=1
+    else
+      self.dealer = 0
+    end
+  end
+
+
   def clear_tricks
     if self.tricks.any?
       self.tricks.each do |trick|

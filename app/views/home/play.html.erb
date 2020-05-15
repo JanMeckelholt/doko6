@@ -1,33 +1,34 @@
 <% content_for :title, "Doppelkopf" %>
 <div class="container">
 	<div class="row">
-	    <div class="col-sm">
+		<div class="col-sm">
 			<h1>Doppelkopf</h1>
-	 	</div>
+		</div>
 	</div>
 
 
 	<% if @game.round > 0 %>
-	  	<div class="row">
-		    <div class="col-sm">
+		<div class="row">
+			<div class="col-sm">
 				<%= render partial: 'table' %>
 			</div>
 		</div>
-	  	<div class="row">
-		    <div class="col-sm">
-		   		<%= render partial: 'human_player' %>	
-			</div>
-		</div>
 		<div class="row">
-	    	<div class="col-sm">
-				<%= render partial: 'table_links' %>
+			<div class="col-sm">
+				<%= render partial: 'human_player' %>	
 			</div>
 		</div>
 	<% else %>
 		<div class="row">
-	    	<div class="col-sm">
+			<div class="col-sm">
 				<%= render partial: 'game_summary' %>
 			</div>
 		</div>
 	<% end %>
+
+	<div class="row">
+		<div class="col-sm">
+			<%= render partial: 'table_links' %>
+		</div>
+	</div>
 </div>
