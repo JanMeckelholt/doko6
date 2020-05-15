@@ -39,6 +39,15 @@ before_action :authenticate_player!
         card.update!(hand: nil)
       end  
     end
+    if @current_player.tricks.first
+      @current_player.tricks.each do |trick|
+        if trick.cards.first
+          trick.cards.each do |card|
+            card.update!(trick: nil)
+          end    
+        end
+      end  
+    end
     @current_player.game_player.destroy! if @current_player.game_player
     ActionCable.server.broadcast "game_channel", content: "index"
     redirect_to :home_index
@@ -60,7 +69,7 @@ before_action :authenticate_player!
     @current_player = current_player
     
     @game = Game.all.first || Game.create!
-    @game.update!(round: 0, next_player:1)
+    @game.update!(round: 1, next_player:1)
     find_players
 
     destroy_game_tricks if @game.tricks.first
@@ -104,14 +113,15 @@ before_action :authenticate_player!
   def claim_trick
     @game = Game.find(params[:game])
     @current_player = current_player
-    @game.tricks.last.game_player = @current_player.game_player
-    if @game.round < 10
+    @game.tricks.last.update!(game_player: @current_player.game_player)
+    if @game.round < 1
       find_players
       @game.tricks.create!
       @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
-     
-      ActionCable.server.broadcast "game_channel", content: "play"
+    else 
+      @game.update!(round: 0, next_player: nil)
     end
+    ActionCable.server.broadcast "game_channel", content: "play"
     redirect_to :home_play
   end
 
@@ -186,7 +196,7 @@ private
 
 
   def reset_game
-    @game.update!(round: 0, next_player:1)
+    @game.update!(round: 1, next_player:1)
     destroy_game_tricks
     destroy_player_hands
     destroy_game_players

@@ -7,8 +7,10 @@
 		<p>Player Name: <%= player.name %></p>
 		<p>Player Email: <%= player.email %></p>
 		<p>Player Id: <%= player.id %></p>
+		<p>Player Last-Trick sum: <%= player.tricks.last.value_sum if player.tricks.last %>
 		<p>----</p>
 	<% end %>
 <% end %>
 
 <p>//////////////////////</p>
+<%=Card.first.point_value %>

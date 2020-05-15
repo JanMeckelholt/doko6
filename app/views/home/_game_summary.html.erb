@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <h2>Endabrechnung</h2>
+    <% @players.each do |player| %>
+      <div class="col-sm">  
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title"> <%=player.name_or_email %></div>
+            <div class="card-text"> Punkte:  <%=player.game_player.points %></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+

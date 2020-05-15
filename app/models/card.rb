@@ -10,13 +10,13 @@ class Card < ApplicationRecord
 #  enum status: [:published, :unpublished, :not_set]
   #enum suits: [:kreuz, :pik, :herz, :karo]
   
- # enum values: {
- #     :zehn => 10,
- #     :bube => 2,
- #     :dame => 3,
- #     :koenig => 4,
- #     :ass => 11
- # }
+  enum card_values: {
+      "Zehn" => 10,
+      "Bube" => 2,
+      "Dame" => 3,
+      "Koenig" => 4,
+      "Ass" => 11
+  }
 
   #@@order = {
   #  [:herz, :zehn] => 1,
@@ -71,6 +71,13 @@ class Card < ApplicationRecord
     #byebug
   end
 
+  def point_value
+    Card.card_values.each do |name, value|
+      if self.name.include? name
+        return value
+      end
+    end    
+  end
 
   def Card.get_cards
     CARDS

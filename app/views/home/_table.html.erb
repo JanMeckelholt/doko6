@@ -2,24 +2,14 @@
   <div class="row">
     <div class="col-sm">
       <h2>Spieltisch:</h2> 
-      <p>"Nächster Spieler: " <%=@players[@game.next_player-1].name_or_email if @players[@game.next_player-1] %> </p>  
-      <div id="msg"></div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm">
-
       <% if @game.tricks.last.cards.count <4 %>
-          <%=link_to "Mein Stich", 'javascript:;', class: "btn btn-primary disabled", :disabled => true %>
+        <p>"Nächster Spieler: " <%=@players[@game.next_player-1].name_or_email if @players[@game.next_player-1] %> </p>  
       <% else %>
            <%=link_to "Mein Stich", home_claim_trick_path(game: @game, player: @current_player), class: "btn btn-primary"%>
       <% end %>
-
-     
+    </div>
   </div>
-</div>
-  
+
 
 
 
