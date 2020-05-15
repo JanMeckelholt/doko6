@@ -1,10 +1,10 @@
 class HomeController < ApplicationController
 
-before_action :authenticate_player!
+  before_action :authenticate_player!
 
 
 
-   def index
+  def index
     @current_player = current_player
     @game = Game.all.first || Game.create!
     find_players 
@@ -13,56 +13,39 @@ before_action :authenticate_player!
   def join_game
     @current_player = current_player
    # byebug
-    @game = Game.all.first || Game.create!
+   @game = Game.all.first || Game.create!
+   find_players
+   if @players.include? @current_player
+    flash[:danger] = "You already joined!"
+  else
+    @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
     find_players
-    if @players.include? @current_player
-      flash[:danger] = "You already joined!"
+    if @players.count == 4 
+      redirect_to :home_create_game and return
     else
-      @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
-      find_players
-      if @players.count == 4 
-        redirect_to :home_create_game and return
-      else
-        ActionCable.server.broadcast "game_channel", content: "index"
-      end
-     # ActionCable.server.broadcast "game_channel", content: "tach game"
-     # ActionCable.server.broadcast "appreance_channel", content: @current_player.name_or_email
-     # GameChannel.broadcast_to(@curren_player, content: @current_player.name_or_email)
+      ActionCable.server.broadcast "game_channel", content: "index"
     end
+  end
+  redirect_to :home_index
+end
+
+def leave_game
+  @current_player = current_player
+  @current_player.game_player.destroy! if @current_player.game_player
+  ActionCable.server.broadcast "game_channel", content: "index"
+  redirect_to :home_index
+end  
+
+
+
+def play
+  @current_player = current_player
+  @game = @current_player.game
+  if @game  
+    find_players
+  else 
     redirect_to :home_index
   end
-
-  def leave_game
-    @current_player = current_player
-    if @current_player.hand && @current_player.hand.cards.first
-      @current_player.hand.cards.each do |card|
-        card.update!(hand: nil)
-      end  
-    end
-    if @current_player.tricks.first
-      @current_player.tricks.each do |trick|
-        if trick.cards.first
-          trick.cards.each do |card|
-            card.update!(trick: nil)
-          end    
-        end
-      end  
-    end
-    @current_player.game_player.destroy! if @current_player.game_player
-    ActionCable.server.broadcast "game_channel", content: "index"
-    redirect_to :home_index
-  end  
-
-
-
-  def play
-    @current_player = current_player
-    @game = @current_player.game
-    if @game  
-      find_players
-    else 
-      redirect_to :home_index
-    end
   end #play
 
   def create_game 
@@ -72,16 +55,12 @@ before_action :authenticate_player!
     @game.update!(round: 1, next_player:1)
     find_players
 
-    destroy_game_tricks if @game.tricks.first
-    destroy_player_tricks
-    destroy_player_hands
+    @game.clear_tricks
+    @players.each do |player|
+      player.game_player.clear_tricks
+      player.game_player.clear_hand
+    end
 
-  #  if params[:players]
-  #    find_players_by_params
-  #  end
-  #  @players.each do |player|
-  #    @game_player = GamePlayer.create!(game: @game, player: @current_player)
-  #  end
     @deck = Deck.all.first || Deck.create!
     @deck.update!(game: @game)
     @deck.build_deck
@@ -104,11 +83,9 @@ before_action :authenticate_player!
       ActionCable.server.broadcast "game_channel", content: "play"
     else
       flash[:danger] = 'Not your turn!'
-      #byebug
     end
-    #byebug
     redirect_to :home_play
-  end
+  end #play_card
 
   def claim_trick
     @game = Game.find(params[:game])
@@ -123,10 +100,10 @@ before_action :authenticate_player!
     end
     ActionCable.server.broadcast "game_channel", content: "play"
     redirect_to :home_play
-  end
+  end #claim_trick
 
 
-private
+  private
 
 
   
@@ -151,56 +128,8 @@ private
       hand = Hand.find_or_create_by!(game_player: player.game_player)
       @deck.deal_to(hand)
       hand.save
-     end
+    end
   end #init_players
-
-  def destroy_player_hands
-    find_players
-    @players.each do |player|
-      if player.hand
-        player.hand.cards.each do |card|
-          card.update!(hand: nil)
-        end
-        player.hand.destroy!
-      end
-    end
-  end
-
-  def destroy_game_players
-    find_players
-    @players.each do |player|
-      player.game_player.destroy!  
-    end 
-  end 
-
-  def destroy_game_tricks
-    @game.tricks.each do |trick|
-      trick.cards.each do |card|
-          card.update!(trick: nil)
-      end
-      trick.destroy!
-    end
-  end
-
-  def destroy_player_tricks
-    find_players
-    @players.each do |player|
-      player.tricks.each do |trick|
-        trick.cards.each do |card|
-            card.update!(trick: nil)
-        end
-        trick.destroy!
-      end
-    end
-  end
-
-
-  def reset_game
-    @game.update!(round: 1, next_player:1)
-    destroy_game_tricks
-    destroy_player_hands
-    destroy_game_players
-  end
 
 
 end

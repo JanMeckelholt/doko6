@@ -13,4 +13,6 @@
 <% end %>
 
 <p>//////////////////////</p>
-<%=Card.first.point_value %>
+<p>Card Name: <%=Card.find(7).name %></p>
+<p>Card Point-Value: <%=Card.find(7).point_value %></p>
+<p>Card Order-Value: <%=Card.find(7).order_value %></p>

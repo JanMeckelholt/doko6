@@ -11,35 +11,12 @@ class Card < ApplicationRecord
   #enum suits: [:kreuz, :pik, :herz, :karo]
   
   enum card_values: {
-      "Zehn" => 10,
-      "Bube" => 2,
-      "Dame" => 3,
-      "Koenig" => 4,
-      "Ass" => 11
+    "Zehn" => 10,
+    "Bube" => 2,
+    "Dame" => 3,
+    "Koenig" => 4,
+    "Ass" => 11
   }
-
-  #@@order = {
-  #  [:herz, :zehn] => 1,
-  #  [:kreuz, :dame]=> 2,
-  #  [:pik, :dame] => 3,
-  #  [:herz , :dame] => 4,
-  #  [:karo , :dame] => 5,
-  #  [:kreuz , :bube] => 6,
-  #  [:pik , :bube] => 7,
-  #  [:herz , :bube] => 8,
-  #  [:karo , :bube] => 9,
-  #  [:karo , :ass] => 10,
-  #  [:karo , :zehn] => 11,
-  #  [:karo , :koenig] => 12,
-  #  [:kreuz , :ass] => 13,
-  #  [:kreuz , :zehn] => 14,
-  #  [:kreuz , :koenig] => 15,
-  #  [:pik , :ass] => 16,
-  #  [:pik , :zehn] => 17,
-  #  [:pik , :koenig] => 18,
-  #  [:herz , :ass] => 19,
-  #  [:herz , :koenig] => 20
-  #}
 
 
 
@@ -67,7 +44,7 @@ class Card < ApplicationRecord
   ]
 
   def order_value
-    CARDS.find_index(card)
+    CARDS.find_index(self.name)
     #byebug
   end
 
@@ -86,16 +63,6 @@ class Card < ApplicationRecord
   def path
     path = "media/images/cards/" + self.name + ".png"
   end
-  #def self.all_suits
-  #  self.suits
-  #end
-
-  #def self.all_values
-  #  self.values
-  #end
-
-
-
 
 end
 
