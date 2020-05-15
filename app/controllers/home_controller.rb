@@ -34,7 +34,7 @@ before_action :authenticate_player!
 
   def leave_game
     @current_player = current_player
-    if @current_player.hand
+    if @current_player.hand && @curren_player.hand.cards.first
       @current_player.hand.cards.each do |card|
         card.update!(hand: nil)
       end  
