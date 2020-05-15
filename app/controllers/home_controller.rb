@@ -63,7 +63,7 @@ before_action :authenticate_player!
     @game.update!(round: 0, next_player:1)
     find_players
 
-    destroy_game_tricks if @game.trick
+    destroy_game_tricks if @game.tricks.first
     destroy_player_tricks
     destroy_player_hands
 
