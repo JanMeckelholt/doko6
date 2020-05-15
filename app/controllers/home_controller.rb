@@ -58,13 +58,15 @@ before_action :authenticate_player!
 
   def create_game 
     @current_player = current_player
-    
+    find_players
+
     @game = Game.all.first || Game.create!
     @game.update!(round: 0, next_player:1)
-    destroy_game_tricks
+
+    destroy_game_tricks if @game.trick
     destroy_player_tricks
     destroy_player_hands
-    @current_player = current_player
+
   #  if params[:players]
   #    find_players_by_params
   #  end
@@ -74,7 +76,7 @@ before_action :authenticate_player!
     @deck = Deck.all.first || Deck.create!
     @deck.update!(game: @game)
     @deck.build_deck
-    find_players
+
     init_players
     @trick = Trick.create!(game: @game)
     ActionCable.server.broadcast "game_channel", content: "play"
