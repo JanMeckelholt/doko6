@@ -58,10 +58,10 @@ before_action :authenticate_player!
 
   def create_game 
     @current_player = current_player
-    find_players
-
+    
     @game = Game.all.first || Game.create!
     @game.update!(round: 0, next_player:1)
+    find_players
 
     destroy_game_tricks if @game.trick
     destroy_player_tricks
