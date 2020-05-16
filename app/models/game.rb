@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+  before_save :check_max_game_players, :check_max_tricks
   before_destroy :clear_tricks
   #include ActiveModel::Model
   has_one :deck, dependent: :destroy 
@@ -8,19 +9,19 @@ class Game < ApplicationRecord
   has_many :players, :through => :game_players #, :source => :player
   has_many :tricks, dependent: :destroy 
 
-  validates :game_players, length:{maximum: 4}
-  validates :tricks, length:{maximum: 10}
+  #validates_length_of :game_players, maximum: 4
+ # validates_length_of :tricks, maximum: 10
 
 
 
-  def player_to_play(players)
-    players[self.next_player-1]
-  end
+ def player_to_play(players)
+  players[self.next_player-1]
+end
 
-  def to_next_player
-    case self.next_player
-    when 0, 4
-      self.next_player=1
+def to_next_player
+  case self.next_player
+  when 0, 4
+    self.next_player=1
      # self.round +=1
    when 1..3 
     self.next_player +=1
@@ -35,7 +36,7 @@ class Game < ApplicationRecord
     when 0, 4
       self.dealer=1
     when 1..3 
-    self.dealer +=1
+      self.dealer +=1
     else
       self.dealer = 0
     end
@@ -52,6 +53,34 @@ class Game < ApplicationRecord
         end
         trick.destroy!
       end  
+    end
+  end
+
+  private
+
+  def check_max_game_players
+    if self.game_players.any?
+      if self.game_players.count<=4
+        return true
+      else
+        errors.add(:base, "Spiel kann nur maximal 4 Spieler haben!")
+        throw :abort
+      end
+    else
+      return true
+    end
+  end
+
+  def check_max_tricks
+    if self.tricks.any?
+      if self.tricks.count<=10
+        return true
+      else
+        errors.add(:base, "Spiel kann nur maximal 10 Stiche haben!")
+        throw :abort
+      end
+    else
+      return true
     end
   end
 

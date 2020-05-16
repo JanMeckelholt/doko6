@@ -5,6 +5,7 @@ class Card < ApplicationRecord
   belongs_to :hand, optional: true
   belongs_to :trick, optional: true
 
+  validates_associated :deck, :hand, :trick
   #attr_accessor :name #, :order_value
 
 #  enum status: [:published, :unpublished, :not_set]

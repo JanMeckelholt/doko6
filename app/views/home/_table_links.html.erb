@@ -1,4 +1,4 @@
-<div class="container">
-	<%= link_to "Neues Spiel", home_create_game_path(dealer: @game.dealer), class: "btn btn-warning" %>
-	<%=	link_to "Tisch verlassen!", :home_leave_game, class: "btn btn-danger" %>
+<div class="container mt-2">
+	<%= link_to "Neues Spiel", home_create_game_path(game: @game, dealer: @game.dealer), :data => {:confirm => 'Das beendet das aktuelle Spiel! Trotzdem neues Spiel erstellen?'}, class: "btn btn-warning mr-5" %>
+	<%=	link_to "Tisch verlassen!", :home_leave_game, :data => {:confirm => 'Tisch wirklich verlassen?'}, class: "btn btn-danger" %>
 </div>

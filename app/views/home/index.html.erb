@@ -4,21 +4,28 @@
   <div class="row">
     <div class="col-sm">
       <h1>Doppelkopf</h1>
-      <div id="players"></div>
+    </div>
+  </div>
 
-      <p>Warte auf Mitspieler...</p>
+  <div class="row">
+    <div class="col-4">
+      <div class="container container-border bg-light mt-2">
+        <p>Warte auf Mitspieler...</p>
+        <% @players.each do |player| %>
+          <p>Spieler : <%=player.name_or_email %> </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-
-      	<% @players.each do |player| %>
-      		<p>Player : <%=player.name_or_email %> </p>
-      	<% end %>
-
-		<%=link_to "Join Game", home_join_game_path, class: "btn btn-primary" %>
-    <%=link_to "Leave Game", home_leave_game_path, class: "btn btn-primary" %>
-
-
+  <div class="row mt-2">
+    <div class="col-sm">
+      <% if @players.include? @current_player %>
+        <%=link_to "Tisch verlassen!", home_leave_game_path, :data => {:confirm => 'Tisch wirklich verlassen?'}, class: "btn btn-danger" %>
+      <% else %>
+        <%=link_to "Spiel beitreten!", home_join_game_path, class: "btn btn-primary" %>
+      <% end %>  
 
     </div>
   </div>
 </div>
- 

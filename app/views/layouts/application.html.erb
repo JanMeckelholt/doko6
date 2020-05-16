@@ -18,7 +18,7 @@
        
        <%= yield %>
 
-       <%= render 'layouts/debug' %>
+       <%= render 'layouts/debug' if Rails.env.development? %>
     </main>
   </body>
 </html>

@@ -1,36 +1,39 @@
-<div class="container">
-  <div class="row">
+<div class="container container-border bg-light mt-2">
+  
+  <div class="row mt-3">
     <div class="col-sm">
       <h2>Spieltisch:</h2> 
       <% if @game.tricks.last.cards.count <4 %>
-        <p>"Nächster Spieler: " <%=@players[@game.next_player-1].name_or_email if @players[@game.next_player-1] %> </p>  
+        <h4>Nächster Spieler:  <%=@players[@game.next_player-1].name_or_email if @players[@game.next_player-1] %> </h4>  
       <% else %>
-           <%=link_to "Mein Stich", home_claim_trick_path(game: @game, player: @current_player), class: "btn btn-primary"%>
+        <h4>Bitte Stich abräumen!</h4> 
       <% end %>
     </div>
   </div>
 
-
-
-
-
   <div class="row">
     <% @players.each do |player| %>
-      <div class="col-sm">  
-        <div class="card-img-top">
-          <% if player.hand.cards.find_by(trick: @game.tricks.last) %>
-            <%=image_pack_tag player.hand.cards.find_by(trick: @game.tricks.last).path%>
-          <% else %>
-            <%=image_pack_tag "media/images/cards/back.png"%>
-          <% end %>
-        </div>
-        <div class="card-body">
-            <%=player.name_or_email%>
-        </div>
+    <div class="col-sm">  
+      <div class="card-img-top">
+        <% if player.hand.cards.find_by(trick: @game.tricks.last) %>
+        <%=image_pack_tag player.hand.cards.find_by(trick: @game.tricks.last).path%>
+        <% else %>
+        <%=image_pack_tag "media/images/cards/back.png"%>
+        <% end %>
       </div>
+      <div class="card-body <%="to_play" if player == @players[@game.next_player-1] %>">
+        <%=player.name_or_email%>
+      </div>
+    </div>
     <% end %>
   </div>
+
+  <div class="row">
+    <div class="col-sm">
+      <% if @game.tricks.last.cards.count == 4 %>
+      <%=link_to "Mein Stich!", home_claim_trick_path(game: @game, player: @current_player), class: "btn btn-warning btn-lg mb-3"%>
+      <% end %>
+    </div>
+  </div>
+
 </div>
-
-
-

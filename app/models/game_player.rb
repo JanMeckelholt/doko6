@@ -1,5 +1,7 @@
 class GamePlayer < ApplicationRecord
+	before_save :check_max_tricks
 	before_destroy :clear_tricks, :clear_hand
+	
 
 	belongs_to :player, optional: true
 	belongs_to :game, optional: true
@@ -8,6 +10,7 @@ class GamePlayer < ApplicationRecord
 	has_many :tricks, dependent: :destroy
 
 	validates :tricks, length:{maximum: 10}
+	validates_associated :game
 
 	
 
@@ -40,6 +43,21 @@ class GamePlayer < ApplicationRecord
 				end  
 			end
 			self.hand.destroy!
+		end
+	end
+
+  private
+
+	def check_max_tricks
+		if self.tricks.any?
+			if self.tricks.count<=10
+				return true
+			else
+				errors.add(:base, "Spieler kann nur maximal 10 Stiche haben!")
+				throw :abort
+			end
+		else
+			return true
 		end
 	end
 
