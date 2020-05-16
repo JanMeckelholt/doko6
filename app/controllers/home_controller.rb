@@ -95,7 +95,7 @@ def play
     @game = Game.find(params[:game])
     @current_player = current_player
     @game.tricks.last.update!(game_player: @current_player.game_player)
-    if @game.round < 1
+    if @game.round < 10
       find_players
       @game.tricks.create!
       @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
