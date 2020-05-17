@@ -31,30 +31,61 @@ class Trick < ApplicationRecord
 		end
 	end
 
-	def check_max_tricks_on_game_player
-		if self.game_player
-			if self.game_player.tricks.count<10
-				return true
-			else
-				errors.add(:base, "Spieler kann nur maximal 10 Stiche haben!")
-				throw :abort
-			end
-		else
-			return true
-		end
-	end
 
 	def check_max_tricks_on_game
 		if self.game
 			if self.game.tricks.count<10
 				return true
 			else
-				errors.add(:base, "Ein Spiel kann nur maximal 10 Stiche haben!")
-				throw :abort
-			end
-		else
-			return true
+				if self.id
+					trick = Trick.find(self.id)
+		          if self.game.tricks.include? trick #game is full but trick already belongs to game
+		          	return true
+		          else #game is full and existing trick can not be added
+		          	errors.add(:base, "Ein Spiel kann nur maximal 10 Stiche haben!")
+		          	throw :abort
+		          end
+		        else #game is full and new trick can not be added
+		        	errors.add(:base, "Ein Spiel kann nur maximal 10 Stiche haben!")
+		        	throw :abort
+		        end
+		    end
+		else 
+		    return true #trick without game
 		end
 	end
 
-end
+
+
+	def check_max_tricks_on_game_player
+		if self.game_player
+			if self.game_player.tricks.count<10
+				return true
+			else
+				if self.id
+					trick = Trick.find(self.id)
+		          if self.game_player.tricks.include? trick #game_player is full but trick already belongs to game
+		          	return true
+		          else #game_player is full and existing trick can not be added
+		          	errors.add(:base, "Spieler kann nur maximal 10 Stiche haben!")
+		          	throw :abort
+		          end
+		        else #game_player is full and new trick can not be added
+		        	errors.add(:base, "Spieler kann nur maximal 10 Stiche haben!")
+		        	throw :abort
+		        end
+		    end
+		else 
+		    return true #trick without game_player
+		end
+	end
+
+
+
+
+
+
+
+
+
+
