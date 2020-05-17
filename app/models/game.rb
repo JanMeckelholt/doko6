@@ -9,9 +9,8 @@ class Game < ApplicationRecord
   has_many :players, :through => :game_players #, :source => :player
   has_many :tricks, dependent: :destroy 
 
-  #validates_length_of :game_players, maximum: 4
- # validates_length_of :tricks, maximum: 10
-
+  validates :game_players, length: { maximum: 4 }
+  validates :tricks, length: { maximum: 10 }
 
 
  def player_to_play(players)
