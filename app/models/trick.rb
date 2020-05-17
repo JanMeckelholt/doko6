@@ -79,13 +79,4 @@ class Trick < ApplicationRecord
 		    return true #trick without game_player
 		end
 	end
-
-
-
-
-
-
-
-
-
-
+end
