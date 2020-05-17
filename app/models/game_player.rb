@@ -66,12 +66,25 @@ class GamePlayer < ApplicationRecord
 			if self.game.game_players.count<4
 				return true
 			else
-				errors.add(:base, "Spiel kann nur maximal 4 Spieler haben!")
-				throw :abort
-			end
-		else
-			return true
-		end
+				if self.id
+					game_player = GamePlayer.find(self.id)
+		          if self.game.game_players.include? game_player #game is full but game_player already belongs to game
+		          	return true
+		          else #game is full and existing game_player can not be added
+		          	errors.add(:base, "Spiel kann nur maximal 4 Spieler haben!")
+		          	throw :abort
+		          end
+		        else #game is full and new game_player can not be added
+		        	errors.add(:base, "Spiel kann nur maximal 4 Spieler haben!")
+		        	throw :abort
+		        end
+		    end
+		else 
+      		return true #game_player without game
+  		end
 	end
 
+
 end
+
+

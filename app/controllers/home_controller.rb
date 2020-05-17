@@ -21,6 +21,7 @@ class HomeController < ApplicationController
     @game_player = GamePlayer.find_or_create_by!(game: @game, player: @current_player)
     find_players
     if @players.count == 4 
+      shuffle_players
       @game.update!(dealer: 1)
       redirect_to :home_create_game and return
     else
@@ -94,18 +95,22 @@ def play
   def claim_trick
     @game = Game.find(params[:game])
     @current_player = current_player
-    @game.tricks.last.update!(game_player: @current_player.game_player)
-    if @game.round < 10
-      find_players
-      @game.tricks.create!
-      @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
-    else 
-      @game.update!(round: 0, next_player: nil)
-      @game.to_next_dealer
-      @game.save
+    if @game.tricks.any?
+      @game.tricks.last.update!(game_player: @current_player.game_player)
+      if @game.round < 10
+        find_players
+        @game.tricks.create!
+        @game.update!(next_player: @players.find_index(@current_player)+1, round: @game.round+1)
+      else 
+        @game.update!(round: 0, next_player: nil)
+        @game.to_next_dealer
+        @game.save
+      end
+      ActionCable.server.broadcast "game_channel", content: "play"
+      redirect_to :home_play
+    else
+      redirect_to :home_index
     end
-    ActionCable.server.broadcast "game_channel", content: "play"
-    redirect_to :home_play
   end #claim_trick
 
 
@@ -137,5 +142,16 @@ def play
     end
   end #init_players
 
+  def shuffle_players
+    @game_player_ids = []
+    @players.each do |player|
+      @game_player_ids << player.game_player.id
+    end
+    @players.shuffle!
+    @game_player_ids.each do |game_player_id|
+      @game_player = GamePlayer.find(game_player_id)
+      @game_player.update!(player: @players.pop) 
+    end
+  end
 
 end
